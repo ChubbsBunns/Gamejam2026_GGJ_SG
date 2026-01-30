@@ -1,0 +1,53 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ec287aacd5d3b8c489f47c922ef185a2, type: 3}
+  m_Name: CharacterAudioProfile_Liora
+  m_EditorClassIdentifier: Assembly-CSharp::CharacterAudioProfile
+  events:
+  - eventType: 0
+    clips:
+    - {fileID: 8300000, guid: e97540646b78e0541b582493c1013464, type: 3}
+    - {fileID: 8300000, guid: c11f9e92a2eb177448e34d53352f3de8, type: 3}
+    - {fileID: 8300000, guid: 555c4ca3bb7428d47bafacd15e6e7f9f, type: 3}
+    - {fileID: 8300000, guid: d7378562d3b040640aab9b67e739f779, type: 3}
+    - {fileID: 8300000, guid: 88f8dd4736b8d9647820b2ab29a3029a, type: 3}
+    - {fileID: 8300000, guid: c74bb717516d4ac4fb0951fbee0bb1c3, type: 3}
+    volume: 0.4
+  - eventType: 7
+    clips:
+    - {fileID: 8300000, guid: b9c26bb88118388478df54718dcce0b1, type: 3}
+    volume: 0.4
+  - eventType: 12
+    clips:
+    - {fileID: 8300000, guid: bba2bd4ccfa5b05458a35208e6b42450, type: 3}
+    - {fileID: 8300000, guid: 883df4163f91bf443b808a35d00173da, type: 3}
+    volume: 0.4
+  - eventType: 1
+    clips:
+    - {fileID: 8300000, guid: 60d56ee9336b1134fa2ddc86fb17afd1, type: 3}
+    volume: 0.4
+  - eventType: 5
+    clips:
+    - {fileID: 8300000, guid: 90b0daab9ee927940a9161c011ea9fc2, type: 3}
+    volume: 3
+  - eventType: 4
+    clips:
+    - {fileID: 8300000, guid: e1c61b73aa1824349b660ca19def6e1e, type: 3}
+    volume: 2
+  - eventType: 9
+    clips:
+    - {fileID: 8300000, guid: b9c26bb88118388478df54718dcce0b1, type: 3}
+    volume: 0.6
+  - eventType: 11
+    clips:
+    - {fileID: 8300000, guid: 3a859962a10ba834589b52f36cc08d2f, type: 3}
+    volume: 2

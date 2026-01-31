@@ -356,15 +356,23 @@ public abstract class PlayerBase : MonoBehaviour
     public FacingDirection GetFacingDir()
     {
         float angle = GetFacingAngle();
-        if (angle > 0 && angle <= 60)
+        print(angle);
+        if (angle > 157.5 || angle <= -157.5)
             return FacingDirection.Left;
-        if (angle > -60 && angle <= 0)
+        else if (angle > -112.5 && angle <= -67.5)
             return FacingDirection.Down;
-        if (angle > -120 && angle <= -50)
+        else if (angle > -22.5 && angle <= 22.5)
             return FacingDirection.Right;
-        if (angle > 60 && angle <= 120)
+        else if (angle > 67.5 && angle <= 112.5)
             return FacingDirection.Up;
-
+        else if (angle > 112.5 && angle <= 157.5)
+            return FacingDirection.UpLeft;
+        else if (angle > 22.5 && angle <= 67.5)
+            return FacingDirection.UpRight;       
+        else if (angle > -67.5 && angle <= -22.5)
+            return FacingDirection.DownRight;
+        else if (angle > -157.5 && angle <= -112.5)
+            return FacingDirection.DownLeft;
         return FacingDirection.Down;
     }
 

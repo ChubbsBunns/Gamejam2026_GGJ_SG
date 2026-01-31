@@ -1,13 +1,14 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PlayerCharacter : PlayerBase
 {
     [Header("Dash Settings")]
     public float dashSpeed = 800f;
     public float dashDuration = 0.2f;
-    public float dashCooldown = 5f;
+    public float dashCooldown = 1f;
     public enum AbilityID { Dash };
     [Header("Components")]
     public SpriteRenderer dashIndicator;
@@ -24,6 +25,8 @@ public class PlayerCharacter : PlayerBase
     public float abilityShakeStrength = 0.15f;
     public float abilityShakeDuration = 0.15f;
 
+    public enum MaskID {Fire, Rock};
+
     private AbilityCooldowns cooldowns;
     private const string DASH_ID = "Dash";
     private Coroutine dashRoutine;
@@ -31,6 +34,7 @@ public class PlayerCharacter : PlayerBase
     [Header("Dash / Knockback")]
     [SerializeField] private float heavyAttackDashDistance = 2f;
     [SerializeField] private float heavyAttackDashDuration = 0.1f;
+    public MaskID currentMaskID;
 
     // =========================
     // UNITY LIFECYCLE
@@ -54,6 +58,7 @@ public class PlayerCharacter : PlayerBase
             print("Base anim found");
         }
         base.rb = GetComponent<Rigidbody2D>();
+        attackComponent.activeAttack = null;
     }
     protected override void OnMovementAbilityStarted()
     {
@@ -70,7 +75,7 @@ public class PlayerCharacter : PlayerBase
         
         if (!isActive || !canMove) return;
         //HandleWalkingAudio();
-        //UpdateAnimation();
+        UpdateAnimation();
         UpdateAttackAim();
     }
 
@@ -134,16 +139,31 @@ public class PlayerCharacter : PlayerBase
     protected override void OnMask1Selected()
     {
         attackComponent.activeAttack = attackComponent.maskAttacks[0];
+        SetMaskID(attackComponent.maskAttacks[0].gameObject);
     }
 
     protected override void OnMask2Selected()
     {
         attackComponent.activeAttack = attackComponent.maskAttacks[1];        
+        SetMaskID(attackComponent.maskAttacks[0].gameObject);
     }
 
     protected override void OnMask3Selected()
     {
         attackComponent.activeAttack = attackComponent.maskAttacks[2];        
+        SetMaskID(attackComponent.maskAttacks[0].gameObject);
+    }
+
+    protected void SetMaskID(GameObject maskGameObject)
+    {
+        if (maskGameObject.GetComponent<FireMask>() != null)
+        {
+            currentMaskID = MaskID.Fire;
+        }
+        if (maskGameObject.GetComponent<RockMask>() != null)
+        {
+            currentMaskID = MaskID.Rock;
+        }
     }
 
 
@@ -238,12 +258,19 @@ public class PlayerCharacter : PlayerBase
     {
         bool isMoving = direction.sqrMagnitude > 0.01f;
         FacingDirection facingDir = GetFacingDir();
-        if (isMoving)
+        print(facingDir);
+        if (isMoving && attackComponent.activeAttack == null)
         {
             switch (facingDir)
             {
                 case FacingDirection.Up:
                     base.animator.Play("walk_up");
+                    break;
+                case FacingDirection.UpLeft:
+                    base.animator.Play("walk_up_left");
+                    break;
+                case FacingDirection.UpRight:
+                    base.animator.Play("walk_up_right");
                     break;
                 case FacingDirection.Left:
                     base.animator.Play("walk_left");
@@ -254,25 +281,82 @@ public class PlayerCharacter : PlayerBase
                 case FacingDirection.Down:
                     base.animator.Play("walk_down");
                     break;
+                case FacingDirection.DownLeft:
+                    base.animator.Play("walk_down_left");
+                    break;                    
+                case FacingDirection.DownRight:
+                    base.animator.Play("walk_down_right");
+                    break;                    
             }
             
-        } else
+        } 
+
+        else if (isMoving && currentMaskID == MaskID.Fire)
         {
             switch (facingDir)
             {
                 case FacingDirection.Up:
-                    base.animator.Play("idle_up");
+                    base.animator.Play("fire_walk_up");
+                    break;
+                case FacingDirection.UpLeft:
+                    base.animator.Play("fire_walk_up_left");
+                    break;
+                case FacingDirection.UpRight:
+                    base.animator.Play("fire_walk_up_right");
                     break;
                 case FacingDirection.Left:
-                    base.animator.Play("idle_up_right");
+                    base.animator.Play("fire_walk_left");
                     break;
                 case FacingDirection.Right:
-                    base.animator.Play("idle_up_left");
+                    base.animator.Play("fire_walk_right");
                     break;
                 case FacingDirection.Down:
-                    base.animator.Play("idle_down");
+                    base.animator.Play("fire_walk_down");
                     break;
+                case FacingDirection.DownLeft:
+                    base.animator.Play("fire_walk_down_left");
+                    break;                    
+                case FacingDirection.DownRight:
+                    base.animator.Play("fire_walk_down_right");
+                    break;                    
+            }}
+
+        else if (isMoving && currentMaskID == MaskID.Rock)
+        {
+            switch (facingDir)
+            {
+                case FacingDirection.Up:
+                    base.animator.Play("rock_walk_up");
+                    break;
+                case FacingDirection.UpLeft:
+                    base.animator.Play("rock_walk_up_left");
+                    break;
+                case FacingDirection.UpRight:
+                    base.animator.Play("rock_walk_up_right");
+                    break;
+                case FacingDirection.Left:
+                    base.animator.Play("rock_walk_left");
+                    break;
+                case FacingDirection.Right:
+                    base.animator.Play("rock_walk_right");
+                    break;
+                case FacingDirection.Down:
+                    base.animator.Play("rock_walk_down");
+                    break;
+                case FacingDirection.DownLeft:
+                    base.animator.Play("rock_walk_down_left");
+                    break;                    
+                case FacingDirection.DownRight:
+                    base.animator.Play("rock_walk_down_right");
+                    break;                    
             }
+
+        }
+
+    else
+        {
+            base.animator.Play("idle_down");
+
         }
     }
 

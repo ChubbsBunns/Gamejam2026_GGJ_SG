@@ -5,10 +5,6 @@ public class PlayerAttackComponent : MonoBehaviour
     public MaskAttackTemplate[] maskAttacks;
     public MaskAttackTemplate activeAttack;
 
-    void Start()
-    {
-        activeAttack = maskAttacks[0];
-    }
     public void OnAttackStarted()
     {
         activeAttack.OnAttackStarted();

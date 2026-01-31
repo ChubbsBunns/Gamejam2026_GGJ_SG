@@ -10,6 +10,9 @@ public class FireMask : MaskAttackTemplate
     [SerializeField] private int damagePerHitHeavy = 20;
     private float heavyAttackStartTime;
 
+    public GameObject fireattack1;
+    public GameObject fireattack2;
+
     private bool isAttacking;
     private Coroutine attackRoutine;
     private int index = 0;
@@ -66,7 +69,8 @@ public class FireMask : MaskAttackTemplate
     {
         Debug.Log("Fire Attack canceled");
         isAttacking = false;
-
+        fireattack1.SetActive(false);
+        fireattack2.SetActive(false);
         if (attackRoutine != null)
         {
             StopCoroutine(attackRoutine);
@@ -121,6 +125,16 @@ public class FireMask : MaskAttackTemplate
     {
         Debug.Log("Fire Fist Punch!" + index);
         DamageEnemiesNormalAttack();
+        if (index % 2 == 0)
+        {
+            fireattack1.SetActive(true);
+            fireattack2.SetActive(false);
+        } 
+        else
+        {
+            fireattack1.SetActive(false);
+            fireattack2.SetActive(true);
+        }
         index += 1;
     }
 

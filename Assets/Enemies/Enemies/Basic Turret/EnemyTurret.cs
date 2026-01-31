@@ -6,11 +6,8 @@ public class EnemyTurret : EnemyBase
     public GameObject projectilePrefab;
     public Transform firePoint;
     public float projectileSpeed = 8f;
-    public float fireRate = 2f;
     public float detectionRange = 12f;
     public bool rotateTowardsTarget = true;
-
-    private float fireTimer;
 
     public PlayerCharacter playerCharacter;
 

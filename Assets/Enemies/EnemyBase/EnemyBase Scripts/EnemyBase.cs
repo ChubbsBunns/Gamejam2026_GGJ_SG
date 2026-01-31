@@ -1,4 +1,5 @@
 using UnityEngine;
+using System;
 
 [RequireComponent(typeof(Collider2D))]
 public class EnemyBase : MonoBehaviour, IDamageable
@@ -6,6 +7,8 @@ public class EnemyBase : MonoBehaviour, IDamageable
     [Header("Base Stats")]
     public int maxHealth = 100;
     public float deathDelay = 0.5f;
+
+    public float fireRate = 2f;
     public AudioSource hurtSound;
     public AudioSource deathSound;
 
@@ -14,6 +17,10 @@ public class EnemyBase : MonoBehaviour, IDamageable
     protected Animator anim;
 
     protected Transform targetPlayer;
+
+    protected float fireTimer;
+
+
 
     protected virtual void Awake()
     {

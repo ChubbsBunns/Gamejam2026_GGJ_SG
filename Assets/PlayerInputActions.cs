@@ -217,6 +217,42 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""AttackHeavy"",
+                    ""type"": ""Button"",
+                    ""id"": ""49ffe7c7-c7fe-465b-a11d-23d80daee002"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Mask1"",
+                    ""type"": ""Button"",
+                    ""id"": ""08a0fe02-4697-4a27-a7c4-35a239abcb30"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Mask2"",
+                    ""type"": ""Button"",
+                    ""id"": ""4285e487-1ebd-417b-8280-f63155222ff6"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Mask3"",
+                    ""type"": ""Button"",
+                    ""id"": ""93a075cc-4744-4b06-8657-00beeade2101"",
+                    ""expectedControlType"": """",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -701,6 +737,50 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""groups"": "";Keyboard&Mouse"",
                     ""action"": ""DragInteract"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""079564ee-6a66-426f-bacd-0ea9bf60d216"",
+                    ""path"": ""<Mouse>/rightButton"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""AttackHeavy"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a054728c-c2e5-4a3c-a300-40cb6187a4e8"",
+                    ""path"": ""<Keyboard>/1"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""Mask1"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""cd3e889e-aab7-44a2-b4fe-10139b6dc483"",
+                    ""path"": ""<Keyboard>/2"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""Mask2"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""baa6d9df-62c8-48ba-a1d5-f28b5fd99e7d"",
+                    ""path"": ""<Keyboard>/3"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": "";Keyboard&Mouse"",
+                    ""action"": ""Mask3"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
                 }
@@ -1352,6 +1432,10 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         m_Player_SwapCharacter = m_Player.FindAction("SwapCharacter", throwIfNotFound: true);
         m_Player_UtilityAbility2 = m_Player.FindAction("UtilityAbility2", throwIfNotFound: true);
         m_Player_DragInteract = m_Player.FindAction("DragInteract", throwIfNotFound: true);
+        m_Player_AttackHeavy = m_Player.FindAction("AttackHeavy", throwIfNotFound: true);
+        m_Player_Mask1 = m_Player.FindAction("Mask1", throwIfNotFound: true);
+        m_Player_Mask2 = m_Player.FindAction("Mask2", throwIfNotFound: true);
+        m_Player_Mask3 = m_Player.FindAction("Mask3", throwIfNotFound: true);
         // UI
         m_UI = asset.FindActionMap("UI", throwIfNotFound: true);
         m_UI_Navigate = m_UI.FindAction("Navigate", throwIfNotFound: true);
@@ -1463,6 +1547,10 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
     private readonly InputAction m_Player_SwapCharacter;
     private readonly InputAction m_Player_UtilityAbility2;
     private readonly InputAction m_Player_DragInteract;
+    private readonly InputAction m_Player_AttackHeavy;
+    private readonly InputAction m_Player_Mask1;
+    private readonly InputAction m_Player_Mask2;
+    private readonly InputAction m_Player_Mask3;
     /// <summary>
     /// Provides access to input actions defined in input action map "Player".
     /// </summary>
@@ -1531,6 +1619,22 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// </summary>
         public InputAction @DragInteract => m_Wrapper.m_Player_DragInteract;
         /// <summary>
+        /// Provides access to the underlying input action "Player/AttackHeavy".
+        /// </summary>
+        public InputAction @AttackHeavy => m_Wrapper.m_Player_AttackHeavy;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/Mask1".
+        /// </summary>
+        public InputAction @Mask1 => m_Wrapper.m_Player_Mask1;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/Mask2".
+        /// </summary>
+        public InputAction @Mask2 => m_Wrapper.m_Player_Mask2;
+        /// <summary>
+        /// Provides access to the underlying input action "Player/Mask3".
+        /// </summary>
+        public InputAction @Mask3 => m_Wrapper.m_Player_Mask3;
+        /// <summary>
         /// Provides access to the underlying input action map instance.
         /// </summary>
         public InputActionMap Get() { return m_Wrapper.m_Player; }
@@ -1598,6 +1702,18 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @DragInteract.started += instance.OnDragInteract;
             @DragInteract.performed += instance.OnDragInteract;
             @DragInteract.canceled += instance.OnDragInteract;
+            @AttackHeavy.started += instance.OnAttackHeavy;
+            @AttackHeavy.performed += instance.OnAttackHeavy;
+            @AttackHeavy.canceled += instance.OnAttackHeavy;
+            @Mask1.started += instance.OnMask1;
+            @Mask1.performed += instance.OnMask1;
+            @Mask1.canceled += instance.OnMask1;
+            @Mask2.started += instance.OnMask2;
+            @Mask2.performed += instance.OnMask2;
+            @Mask2.canceled += instance.OnMask2;
+            @Mask3.started += instance.OnMask3;
+            @Mask3.performed += instance.OnMask3;
+            @Mask3.canceled += instance.OnMask3;
         }
 
         /// <summary>
@@ -1651,6 +1767,18 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
             @DragInteract.started -= instance.OnDragInteract;
             @DragInteract.performed -= instance.OnDragInteract;
             @DragInteract.canceled -= instance.OnDragInteract;
+            @AttackHeavy.started -= instance.OnAttackHeavy;
+            @AttackHeavy.performed -= instance.OnAttackHeavy;
+            @AttackHeavy.canceled -= instance.OnAttackHeavy;
+            @Mask1.started -= instance.OnMask1;
+            @Mask1.performed -= instance.OnMask1;
+            @Mask1.canceled -= instance.OnMask1;
+            @Mask2.started -= instance.OnMask2;
+            @Mask2.performed -= instance.OnMask2;
+            @Mask2.canceled -= instance.OnMask2;
+            @Mask3.started -= instance.OnMask3;
+            @Mask3.performed -= instance.OnMask3;
+            @Mask3.canceled -= instance.OnMask3;
         }
 
         /// <summary>
@@ -2145,6 +2273,34 @@ public partial class @PlayerInputActions: IInputActionCollection2, IDisposable
         /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
         /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
         void OnDragInteract(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "AttackHeavy" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnAttackHeavy(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Mask1" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnMask1(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Mask2" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnMask2(InputAction.CallbackContext context);
+        /// <summary>
+        /// Method invoked when associated input action "Mask3" is either <see cref="UnityEngine.InputSystem.InputAction.started" />, <see cref="UnityEngine.InputSystem.InputAction.performed" /> or <see cref="UnityEngine.InputSystem.InputAction.canceled" />.
+        /// </summary>
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.started" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.performed" />
+        /// <seealso cref="UnityEngine.InputSystem.InputAction.canceled" />
+        void OnMask3(InputAction.CallbackContext context);
     }
     /// <summary>
     /// Interface to implement callback methods for all input action callbacks associated with input actions defined by "UI" which allows adding and removing callbacks.

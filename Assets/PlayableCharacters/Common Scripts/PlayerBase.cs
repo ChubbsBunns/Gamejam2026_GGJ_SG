@@ -51,6 +51,10 @@ public abstract class PlayerBase : MonoBehaviour
     protected InputAction movementAbility;
     protected InputAction utilityAbility;
     protected InputAction utility2Ability;
+    protected InputAction attackHeavy;
+    protected InputAction mask1;
+    protected InputAction mask2;
+    protected InputAction mask3;
 
     // EVENTS
     public event Action<int, int> OnHealthChanged;
@@ -89,11 +93,13 @@ public abstract class PlayerBase : MonoBehaviour
     public enum FacingDirection
     {
         Up,
+        UpLeft,
         UpRight,
-        DownRight,
         Down,
         DownLeft,
-        UpLeft
+        DownRight,
+        Left,
+        Right,
     }
 
     public enum PlayerCharacterID
@@ -120,7 +126,6 @@ public abstract class PlayerBase : MonoBehaviour
 
     public virtual List<AbilityInfo> GetAbilities()
     {
-        // By default, no abilities
         return new List<AbilityInfo>();
     }
 
@@ -138,6 +143,9 @@ public abstract class PlayerBase : MonoBehaviour
         attack = playerControls.Player.Attack;
         attack.Enable();
         attack.performed += Attack;
+        attackHeavy = playerControls.Player.AttackHeavy;
+        attackHeavy.Enable();
+        attackHeavy.performed += AttackHeavy;
         movementAbility = playerControls.Player.MovementAbility;
         movementAbility.Enable();
         movementAbility.performed += MovementAbility;
@@ -147,6 +155,18 @@ public abstract class PlayerBase : MonoBehaviour
         utility2Ability = playerControls.Player.UtilityAbility2;
         utility2Ability.Enable();
         utility2Ability.performed += Utility2Ability;
+        
+        mask1 = playerControls.Player.Mask1;
+        mask1.Enable();
+        mask1.performed += Mask1;
+
+        mask2 = playerControls.Player.Mask2;
+        mask2.Enable();
+        mask2.performed += Mask2;
+
+        mask3 = playerControls.Player.Mask3;
+        mask3.Enable();
+        mask3.performed += Mask3;
 
         movementAbility.started += ctx => OnMovementAbilityStarted();
         movementAbility.canceled += ctx => OnMovementAbilityCanceled();
@@ -156,6 +176,11 @@ public abstract class PlayerBase : MonoBehaviour
         utility2Ability.canceled += ctx => OnUtility2AbilityCanceled();
         attack.started += ctx => OnAttackStarted();
         attack.canceled += ctx => OnAttackCanceled();
+        attackHeavy.started += ctx => OnAttackHeavyStarted();
+        attackHeavy.canceled += ctx => OnAttackHeavyCanceled();
+        mask1.started += ctx => OnMask1Selected();
+        mask2.started += ctx => OnMask2Selected();
+        mask3.started += ctx => OnMask3Selected();
     }
 
     void OnDisable()
@@ -184,7 +209,14 @@ public abstract class PlayerBase : MonoBehaviour
     {
         if (!isActive)
             return;
-        direction = move.ReadValue<Vector2>().normalized;
+        if (!(this is PlayerCharacter pc && pc.MovementLocked))
+        {
+            direction = move.ReadValue<Vector2>().normalized;
+        }
+        else
+        {
+            direction = Vector2.zero;
+        }
 
         if (!overrideFacing)
         {
@@ -325,17 +357,13 @@ public abstract class PlayerBase : MonoBehaviour
     {
         float angle = GetFacingAngle();
         if (angle > 0 && angle <= 60)
-            return FacingDirection.UpRight;
+            return FacingDirection.Left;
         if (angle > -60 && angle <= 0)
-            return FacingDirection.DownRight;
-        if (angle > -120 && angle <= -50)
             return FacingDirection.Down;
+        if (angle > -120 && angle <= -50)
+            return FacingDirection.Right;
         if (angle > 60 && angle <= 120)
             return FacingDirection.Up;
-        if (angle >= -180 && angle <= -120)
-            return FacingDirection.DownLeft;
-        if (angle > 120 || angle <= 180)
-            return FacingDirection.UpLeft;
 
         return FacingDirection.Down;
     }
@@ -410,18 +438,28 @@ public abstract class PlayerBase : MonoBehaviour
 
     private void Attack(InputAction.CallbackContext context)
     {
-        //Debug.Log("We Attack ");
     }
+
+    private void AttackHeavy(InputAction.CallbackContext context)
+    {
+    }    
 
     private void UtilityAbility(InputAction.CallbackContext context)
     {
-        //Debug.Log("We Utility ");
     }
 
     private void Utility2Ability(InputAction.CallbackContext context)
     {
-        //Debug.Log("We Utility 2");
     }
+
+    private void Mask1(InputAction.CallbackContext context)
+    {}
+
+    private void Mask2(InputAction.CallbackContext context)
+    {}
+
+    private void Mask3(InputAction.CallbackContext context)
+    {}
 
 
 
@@ -552,6 +590,13 @@ public abstract class PlayerBase : MonoBehaviour
     protected virtual void OnUtility2AbilityCanceled() { }    
     protected virtual void OnAttackStarted() { }
     protected virtual void OnAttackCanceled() { }
+
+    protected virtual void OnAttackHeavyStarted() { }
+    protected virtual void OnAttackHeavyCanceled() { } 
+
+    protected virtual void OnMask1Selected() {}
+    protected virtual void OnMask2Selected() {}
+    protected virtual void OnMask3Selected() {}   
 
     // =========================
     // AUDIO HELPERS

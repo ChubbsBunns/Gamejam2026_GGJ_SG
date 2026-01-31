@@ -9,7 +9,6 @@ public class PlayerCharacter : PlayerBase
     public float dashDuration = 0.2f;
     public float dashCooldown = 5f;
     public enum AbilityID { Dash };
- 
     [Header("Components")]
     public SpriteRenderer dashIndicator;
     public Animator anim;
@@ -27,6 +26,11 @@ public class PlayerCharacter : PlayerBase
 
     private AbilityCooldowns cooldowns;
     private const string DASH_ID = "Dash";
+    private Coroutine dashRoutine;
+    [SerializeField] private float attackOffsetDistance = 1.2f;
+    [Header("Dash / Knockback")]
+    [SerializeField] private float heavyAttackDashDistance = 2f;
+    [SerializeField] private float heavyAttackDashDuration = 0.1f;
 
     // =========================
     // UNITY LIFECYCLE
@@ -65,9 +69,9 @@ public class PlayerCharacter : PlayerBase
         base.Update();
         
         if (!isActive || !canMove) return;
-        HandleWalkingAudio();
-        UpdateAnimation();
-
+        //HandleWalkingAudio();
+        //UpdateAnimation();
+        UpdateAttackAim();
     }
 
     void FixedUpdate()
@@ -90,14 +94,59 @@ public class PlayerCharacter : PlayerBase
 
     protected override void OnAttackStarted()
     {
-        
+        attackComponent.OnAttackStarted();
     }
-
 
     protected override void OnAttackCanceled()
     {
-        
+        attackComponent.OnAttackCanceled();
     }
+
+    protected override void OnAttackHeavyStarted()
+    {
+        attackComponent.OnAttackHeavyStarted();
+    }
+
+    protected override void OnAttackHeavyCanceled()
+    {
+        attackComponent.OnAttackHeavyCanceled();
+    }    
+
+    private void UpdateAttackAim()
+    {
+        if (attackComponent == null) return;
+
+        Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mouseWorldPos.z = 0f;
+
+        Vector3 aimDirection = (mouseWorldPos - attackComponent.transform.position).normalized;
+
+        float angle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg;
+
+        attackComponent.transform.rotation = Quaternion.Euler(0f, 0f, angle);
+        attackComponent.transform.position = this.transform.position + aimDirection * attackOffsetDistance;
+    }
+
+    // =========================
+    // MASK SWAPPING LOGIC
+    // =========================
+
+    protected override void OnMask1Selected()
+    {
+        attackComponent.activeAttack = attackComponent.maskAttacks[0];
+    }
+
+    protected override void OnMask2Selected()
+    {
+        attackComponent.activeAttack = attackComponent.maskAttacks[1];        
+    }
+
+    protected override void OnMask3Selected()
+    {
+        attackComponent.activeAttack = attackComponent.maskAttacks[2];        
+    }
+
+
 
     // =========================
     // DASH LOGIC
@@ -133,17 +182,51 @@ public class PlayerCharacter : PlayerBase
     {
         dashTimer -= delta;
         rb.linearVelocity = dashDirection * dashSpeed;
-
         if (dashTimer <= 0f)
             EndDash();
     }
-
 
     public Transform GetActivePosition()
     {
         return playerBodyPosition.transform;
     }
 
+
+    public void BackwardDash(Vector2 direction)
+    {
+        if (dashRoutine != null)
+            StopCoroutine(dashRoutine);
+        LockMovement(heavyAttackDashDuration);
+
+        rb.linearVelocity = Vector2.zero;
+        externalVelocity = Vector2.zero;
+        dashRoutine = StartCoroutine(DashCoroutine(direction.normalized));
+    }
+
+    // =========================
+    // BACKWARD DASH LOGIC
+    // =========================
+    private IEnumerator DashCoroutine(Vector2 direction)
+    {
+        float elapsed = 0f;
+        Vector3 startPos = transform.position;
+        Vector3 targetPos = startPos + (Vector3)(direction * heavyAttackDashDistance);
+
+        while (elapsed < heavyAttackDashDuration)
+        {
+            elapsed += Time.deltaTime;
+            float t = elapsed / heavyAttackDashDuration;
+
+            // Ease out feels better than linear
+            t = Mathf.SmoothStep(0f, 1f, t);
+
+            transform.position = Vector3.Lerp(startPos, targetPos, t);
+            yield return null;
+        }
+
+        transform.position = targetPos;
+        dashRoutine = null;
+    }
 
 
     // =========================
@@ -162,20 +245,14 @@ public class PlayerCharacter : PlayerBase
                 case FacingDirection.Up:
                     base.animator.Play("walk_up");
                     break;
-                case FacingDirection.UpRight:
-                    base.animator.Play("walk_up_right");
+                case FacingDirection.Left:
+                    base.animator.Play("walk_left");
                     break;
-                case FacingDirection.UpLeft:
-                    base.animator.Play("walk_up_left");
+                case FacingDirection.Right:
+                    base.animator.Play("walk_right");
                     break;
                 case FacingDirection.Down:
                     base.animator.Play("walk_down");
-                    break;
-                case FacingDirection.DownLeft:
-                    base.animator.Play("walk_down_left");
-                    break;
-                case FacingDirection.DownRight:
-                    base.animator.Play("walk_down_right");
                     break;
             }
             
@@ -186,20 +263,14 @@ public class PlayerCharacter : PlayerBase
                 case FacingDirection.Up:
                     base.animator.Play("idle_up");
                     break;
-                case FacingDirection.UpRight:
+                case FacingDirection.Left:
                     base.animator.Play("idle_up_right");
                     break;
-                case FacingDirection.UpLeft:
+                case FacingDirection.Right:
                     base.animator.Play("idle_up_left");
                     break;
                 case FacingDirection.Down:
                     base.animator.Play("idle_down");
-                    break;
-                case FacingDirection.DownLeft:
-                    base.animator.Play("idle_down_left");
-                    break;
-                case FacingDirection.DownRight:
-                    base.animator.Play("idle_down_right");
                     break;
             }
         }
@@ -243,4 +314,23 @@ public class PlayerCharacter : PlayerBase
         print("Dialogue ended");
         canMove = true;
     }
+    // =========================
+    // Movement Lock
+    // =========================
+    public bool MovementLocked { get; private set; }
+
+    public void LockMovement(float duration)
+    {
+        if (MovementLocked) return;
+        StartCoroutine(LockMovementRoutine(duration));
+    }
+
+
+    private IEnumerator LockMovementRoutine(float duration)
+    {
+        MovementLocked = true;
+        yield return new WaitForSeconds(duration);
+        MovementLocked = false;
+    }
+
 }

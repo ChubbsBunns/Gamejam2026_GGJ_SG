@@ -277,7 +277,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7c11f30edcc62ab4bb19840a69fdb678, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyMelee
-  maxHealth: 100
+  maxHealth: 15
   deathDelay: 0.5
   fireRate: 2
   hurtSound: {fileID: 0}

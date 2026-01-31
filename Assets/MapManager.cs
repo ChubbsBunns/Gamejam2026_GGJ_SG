@@ -5,8 +5,6 @@ public class MapManager : MonoBehaviour
 {
     public static MapManager instance;
 
-   
-
     [SerializeField]
     public enum RoomGroup
     {
@@ -38,10 +36,18 @@ public class MapManager : MonoBehaviour
 
     private GameObject currentRoomInstance;
 
-    private GameObject previousRoomInstance;
+    private GameObject previousRoomInstance = null;
 
     private RoomGroup currentRoomGroup = RoomGroup.A;
 
+    private void Awake()
+    {
+        if (instance == null)
+        {
+            instance = this;
+        }
+        
+    }
     private void Start()
     {
         Debug.Log("Spawning room A");
@@ -110,6 +116,10 @@ public class MapManager : MonoBehaviour
 
     public void OnRoomEntered()
     {
-        Destroy(previousRoomInstance);
+        if (previousRoomInstance != null)
+        {
+            Destroy(previousRoomInstance);
+        }
+        
     }
 }

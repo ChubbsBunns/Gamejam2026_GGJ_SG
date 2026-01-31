@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using Pathfinding;
 using UnityEngine;
 
 public class EnemyManager : MonoBehaviour
@@ -22,14 +23,15 @@ public class EnemyManager : MonoBehaviour
     void Start()
     {
         Debug.Log("ENemyManager start");
-        Collider[] hits = Physics.OverlapBox(
+        Collider2D[] hits = Physics2D.OverlapBoxAll(
             transform.position,
-            GetComponent<BoxCollider2D>().bounds.extents
+            GetComponent<BoxCollider2D>().bounds.size,
+            0f
         );
-
-        foreach (Collider hit in hits)
+        print(hits.Length);
+        foreach (Collider2D hit in hits)
         {
-            if (hit.CompareTag("Player"))
+            if (hit.CompareTag("PlayerBody") && !firstEntry)
             {
                 StartRoomBattle();
                 firstEntry = true;
@@ -47,7 +49,7 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter2D(Collider2D other)
     {
         Debug.Log("Entered room: " + other.name);
         if (!firstEntry)
@@ -75,6 +77,11 @@ public class EnemyManager : MonoBehaviour
                 if (eb != null)
                 {
                     eb.AttachEnemyManager(this);
+                }
+                AIDestinationSetter ads = inst.GetComponent<AIDestinationSetter>();
+                if (ads != null)
+                {
+                    ads.target = GameObject.FindGameObjectWithTag("Player").transform;
                 }
             }
         }

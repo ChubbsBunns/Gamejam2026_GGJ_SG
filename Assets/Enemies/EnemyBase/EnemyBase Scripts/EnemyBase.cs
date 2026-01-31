@@ -72,7 +72,11 @@ public class EnemyBase : MonoBehaviour, IDamageable
         isDead = true;
         Debug.Log($"{gameObject.name} has died.");
 
-        deathSound?.Play();
+        if (deathSound != null)
+        {
+            deathSound.Play();
+        }
+        
         if (anim)
             anim.SetTrigger("Die");
 
@@ -80,13 +84,16 @@ public class EnemyBase : MonoBehaviour, IDamageable
         {
             enemyManager.OnEnemyKilled();
         }
-
-        StartCoroutine(DestroyAfterDelay());
+        // print("Starting destroy coroutine");
+        // StartCoroutine(DestroyAfterDelay());
+        Destroy(gameObject);
     }
 
     private System.Collections.IEnumerator DestroyAfterDelay()
-    {
+    {   
+
         yield return new WaitForSeconds(deathDelay);
+        print("Destroying object");
         Destroy(gameObject);
     }
 

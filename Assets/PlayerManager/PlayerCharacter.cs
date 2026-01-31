@@ -258,7 +258,7 @@ public class PlayerCharacter : PlayerBase
     {
         bool isMoving = direction.sqrMagnitude > 0.01f;
         FacingDirection facingDir = GetFacingDir();
-        print(facingDir);
+        // print(facingDir);
         if (isMoving && attackComponent.activeAttack == null)
         {
             switch (facingDir)

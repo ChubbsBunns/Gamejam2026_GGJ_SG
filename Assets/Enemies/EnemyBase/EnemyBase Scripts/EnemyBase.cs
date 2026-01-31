@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using Unity.VisualScripting;
 
 [RequireComponent(typeof(Collider2D))]
 public class EnemyBase : MonoBehaviour, IDamageable
@@ -19,6 +20,8 @@ public class EnemyBase : MonoBehaviour, IDamageable
     protected Transform targetPlayer;
 
     protected float fireTimer;
+
+    private EnemyManager enemyManager;
 
 
 
@@ -73,6 +76,11 @@ public class EnemyBase : MonoBehaviour, IDamageable
         if (anim)
             anim.SetTrigger("Die");
 
+        if (enemyManager != null)
+        {
+            enemyManager.OnEnemyKilled();
+        }
+
         StartCoroutine(DestroyAfterDelay());
     }
 
@@ -80,5 +88,10 @@ public class EnemyBase : MonoBehaviour, IDamageable
     {
         yield return new WaitForSeconds(deathDelay);
         Destroy(gameObject);
+    }
+
+    public void AttachEnemyManager(EnemyManager em)
+    {
+        enemyManager = em;
     }
 }

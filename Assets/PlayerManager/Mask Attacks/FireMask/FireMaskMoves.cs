@@ -26,7 +26,7 @@ public class FireMask : MaskAttackTemplate
     [SerializeField] Rigidbody2D playerBodyRB;
     [SerializeField] SpriteRenderer heavyAttackSprite;
     [SerializeField] float heavySpriteFlickerDuration = 0.2f;
-
+    public bool heavyRockAttackInitiated = false;
     private PlayerCharacter player;
     private Camera mainCamera;
 

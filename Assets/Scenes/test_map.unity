@@ -6655,10 +6655,12 @@ MonoBehaviour:
   playerBodyPosition: {fileID: 1461618853}
   abilityShakeStrength: 0.15
   abilityShakeDuration: 0.15
+  rockWall: {fileID: 8738910501123381975, guid: 999b8c514f4fa254788d2e35043b99de, type: 3}
   attackOffsetDistance: 1.2
   heavyAttackDashDistance: 2
   heavyAttackDashDuration: 0.1
   currentMaskID: 0
+  rockWallCooldown: 7
 --- !u!114 &930221748
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7057,7 +7059,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!212 &1157331590
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -8117,9 +8119,9 @@ SpriteRenderer:
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
   m_GlobalIlluminationMeshLod: 0
-  m_SortingLayerID: 1677521757
+  m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 23
   m_Sprite: {fileID: -2662930128757036435, guid: 813cf02ca32b15342af7b0261d5b7be0, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0

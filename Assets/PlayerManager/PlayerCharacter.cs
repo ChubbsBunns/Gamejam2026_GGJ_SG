@@ -8,7 +8,7 @@ public class PlayerCharacter : PlayerBase
     [Header("Dash Settings")]
     public float dashSpeed = 800f;
     public float dashDuration = 0.2f;
-    public float dashCooldown = 1f;
+    
     public enum AbilityID { Dash };
     [Header("Components")]
     public SpriteRenderer dashIndicator;
@@ -26,15 +26,27 @@ public class PlayerCharacter : PlayerBase
     public float abilityShakeDuration = 0.15f;
 
     public enum MaskID {Fire, Rock};
+    [SerializeField] private GameObject rockWall;
 
     private AbilityCooldowns cooldowns;
     private const string DASH_ID = "Dash";
+    private const string ROCK_WALL_ID = "RockWall";
+    private const string ROCK_NORMAL_ATTACK = "RockNormalAttack";
+    private const string ROCK_HEAVY_ATTACK = "RockHeavyAttack";
+    private const string FIRE_NORMAL_ATTACK = "FireNormalAttack";
+    private const string FIRE_HEAVY_ATTACK = "FireHeavyAttack";    
     private Coroutine dashRoutine;
     [SerializeField] private float attackOffsetDistance = 1.2f;
     [Header("Dash / Knockback")]
     [SerializeField] private float heavyAttackDashDistance = 2f;
     [SerializeField] private float heavyAttackDashDuration = 0.1f;
     public MaskID currentMaskID;
+    public float rockWallCooldown = 7f;
+    public float dashCooldown = 1f;
+    public float rockNormalAttackCooldown = 0.4f;
+    public float rockHeavyAttackCooldown = 1.0f;
+    public float fireNormalAttackCooldown = 0.4f;
+    public float fireHeavyAttackCooldown = 1.0f;
 
     // =========================
     // UNITY LIFECYCLE
@@ -49,6 +61,11 @@ public class PlayerCharacter : PlayerBase
         if (cooldowns == null)
             cooldowns = gameObject.AddComponent<AbilityCooldowns>();
         cooldowns.Register(DASH_ID, dashCooldown);
+        cooldowns.Register(ROCK_WALL_ID, rockWallCooldown);
+        cooldowns.Register(FIRE_NORMAL_ATTACK, fireNormalAttackCooldown);
+        cooldowns.Register(FIRE_HEAVY_ATTACK, fireHeavyAttackCooldown);
+        cooldowns.Register(ROCK_NORMAL_ATTACK, rockNormalAttackCooldown);
+        cooldowns.Register(ROCK_HEAVY_ATTACK, rockHeavyAttackCooldown);
         if (base.animator == null)
         {
             print("Base anim not found");
@@ -62,10 +79,22 @@ public class PlayerCharacter : PlayerBase
     }
     protected override void OnMovementAbilityStarted()
     {
-        if (isDashing || !cooldowns.IsReady(DASH_ID) || !canMove)
-            return;
+        if (currentMaskID == MaskID.Fire)
+        {
+            if (isDashing || !cooldowns.IsReady(DASH_ID) || !canMove)
+                return;
 
-        StartCoroutine(StartDash());
+            StartCoroutine(StartDash());            
+        }
+        else if (currentMaskID == MaskID.Rock)
+        {
+            if (!cooldowns.IsReady(ROCK_WALL_ID))
+            {
+                return;
+            }
+            ManageRockWallCooldown();
+            CreateRockWall();            
+        }
     }
 
 #pragma warning disable CS0108
@@ -145,13 +174,13 @@ public class PlayerCharacter : PlayerBase
     protected override void OnMask2Selected()
     {
         attackComponent.activeAttack = attackComponent.maskAttacks[1];        
-        SetMaskID(attackComponent.maskAttacks[0].gameObject);
+        SetMaskID(attackComponent.maskAttacks[1].gameObject);
     }
 
     protected override void OnMask3Selected()
     {
         attackComponent.activeAttack = attackComponent.maskAttacks[2];        
-        SetMaskID(attackComponent.maskAttacks[0].gameObject);
+        SetMaskID(attackComponent.maskAttacks[2].gameObject);
     }
 
     protected void SetMaskID(GameObject maskGameObject)
@@ -198,6 +227,21 @@ public class PlayerCharacter : PlayerBase
         cooldowns.StartCooldown(DASH_ID);
     }
 
+    private void ManageRockWallCooldown()
+    {
+        cooldowns.StartCooldown(ROCK_WALL_ID);
+    }
+
+    private void ManageNormalRockAttackCooldown()
+    {
+        cooldowns.StartCooldown(ROCK_NORMAL_ATTACK);
+    }
+
+    private void ManageHeavyRockAttackCooldown()
+    {
+        cooldowns.StartCooldown(ROCK_HEAVY_ATTACK);
+    }
+
     private void DashMovement(float delta)
     {
         dashTimer -= delta;
@@ -221,6 +265,28 @@ public class PlayerCharacter : PlayerBase
         rb.linearVelocity = Vector2.zero;
         externalVelocity = Vector2.zero;
         dashRoutine = StartCoroutine(DashCoroutine(direction.normalized));
+    }
+
+
+    // =========================
+    // ROCK WALL LOGIC
+    // =========================
+
+    private void CreateRockWall()
+    {
+        Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        mouseWorldPos.z = 0f;
+
+        Vector3 aimDirection = (mouseWorldPos - attackComponent.transform.position).normalized;
+
+        float normalAngle = Mathf.Atan2(aimDirection.y, aimDirection.x) * Mathf.Rad2Deg + 90f;
+        Vector2 normalDir = new Vector2(
+            Mathf.Cos(normalAngle * Mathf.Deg2Rad),
+            Mathf.Sin(normalAngle * Mathf.Deg2Rad)
+        );
+        Quaternion rotation = Quaternion.FromToRotation(Vector3.left, normalDir);
+        Instantiate(rockWall, mouseWorldPos, rotation);
+
     }
 
     // =========================
@@ -258,7 +324,6 @@ public class PlayerCharacter : PlayerBase
     {
         bool isMoving = direction.sqrMagnitude > 0.01f;
         FacingDirection facingDir = GetFacingDir();
-        print(facingDir);
         if (isMoving && attackComponent.activeAttack == null)
         {
             switch (facingDir)
@@ -288,7 +353,6 @@ public class PlayerCharacter : PlayerBase
                     base.animator.Play("walk_down_right");
                     break;                    
             }
-            
         } 
 
         else if (isMoving && currentMaskID == MaskID.Fire)
@@ -398,6 +462,7 @@ public class PlayerCharacter : PlayerBase
         print("Dialogue ended");
         canMove = true;
     }
+
     // =========================
     // Movement Lock
     // =========================

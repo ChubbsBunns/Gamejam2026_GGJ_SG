@@ -356,7 +356,6 @@ public abstract class PlayerBase : MonoBehaviour
     public FacingDirection GetFacingDir()
     {
         float angle = GetFacingAngle();
-        print(angle);
         if (angle > 157.5 || angle <= -157.5)
             return FacingDirection.Left;
         else if (angle > -112.5 && angle <= -67.5)

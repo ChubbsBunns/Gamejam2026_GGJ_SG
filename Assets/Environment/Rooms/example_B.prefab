@@ -431,6 +431,12 @@ MonoBehaviour:
   enemies:
   - enemyPrefab: {fileID: 636277909174875991, guid: 141b37d5045ce8b42abee691a54aba56, type: 3}
     num: 1
+  - enemyPrefab: {fileID: 8433859676777789979, guid: 0b97fa8533c4efd47b83164d5830d9c9, type: 3}
+    num: 1
+  entrance: {fileID: 0}
+  exit: {fileID: 0}
+  startBattleOnLoad: 0
+  finalRoom: 0
 --- !u!61 &1287758591476219590
 BoxCollider2D:
   m_ObjectHideFlags: 0

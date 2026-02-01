@@ -119,6 +119,63 @@ NavMeshSettings:
     debug:
       m_Flags: 0
   m_NavMeshData: {fileID: 0}
+--- !u!1001 &21763759
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 0}
+    m_Modifications:
+    - target: {fileID: 325350733798571627, guid: a14ca58032927b34da4026e9b20736fa, type: 3}
+      propertyPath: m_Name
+      value: Healthbar
+      objectReference: {fileID: 0}
+    - target: {fileID: 5183927070376872685, guid: a14ca58032927b34da4026e9b20736fa, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0.2543
+      objectReference: {fileID: 0}
+    - target: {fileID: 5183927070376872685, guid: a14ca58032927b34da4026e9b20736fa, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.39213
+      objectReference: {fileID: 0}
+    - target: {fileID: 5183927070376872685, guid: a14ca58032927b34da4026e9b20736fa, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5183927070376872685, guid: a14ca58032927b34da4026e9b20736fa, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5183927070376872685, guid: a14ca58032927b34da4026e9b20736fa, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5183927070376872685, guid: a14ca58032927b34da4026e9b20736fa, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5183927070376872685, guid: a14ca58032927b34da4026e9b20736fa, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5183927070376872685, guid: a14ca58032927b34da4026e9b20736fa, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5183927070376872685, guid: a14ca58032927b34da4026e9b20736fa, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5183927070376872685, guid: a14ca58032927b34da4026e9b20736fa, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: a14ca58032927b34da4026e9b20736fa, type: 3}
 --- !u!1 &63163175
 GameObject:
   m_ObjectHideFlags: 0
@@ -5191,6 +5248,8 @@ MonoBehaviour:
   fireRate: 2
   hurtSound: {fileID: 0}
   deathSound: {fileID: 0}
+  enemyHealthBar: {fileID: 0}
+  healthBarPrefab: {fileID: 0}
   introDuration: 2
   outroDuration: 2.5
   phaseThresholds:
@@ -5896,6 +5955,8 @@ MonoBehaviour:
   fireRate: 2
   hurtSound: {fileID: 0}
   deathSound: {fileID: 0}
+  enemyHealthBar: {fileID: 0}
+  healthBarPrefab: {fileID: 0}
 --- !u!4 &479306400
 Transform:
   m_ObjectHideFlags: 0
@@ -6648,17 +6709,23 @@ MonoBehaviour:
   ableToSwap: 1
   dashSpeed: 30
   dashDuration: 0.2
-  dashCooldown: 5
   dashIndicator: {fileID: 0}
   anim: {fileID: 0}
   attackComponent: {fileID: 0}
   playerBodyPosition: {fileID: 1461618853}
   abilityShakeStrength: 0.15
   abilityShakeDuration: 0.15
+  rockWall: {fileID: 0}
   attackOffsetDistance: 1.2
   heavyAttackDashDistance: 2
   heavyAttackDashDuration: 0.1
   currentMaskID: 0
+  rockWallCooldown: 7
+  dashCooldown: 5
+  rockNormalAttackCooldown: 0.4
+  rockHeavyAttackCooldown: 1
+  fireNormalAttackCooldown: 0.4
+  fireHeavyAttackCooldown: 1
 --- !u!114 &930221748
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7149,6 +7216,8 @@ MonoBehaviour:
   fireRate: 1
   hurtSound: {fileID: 0}
   deathSound: {fileID: 0}
+  enemyHealthBar: {fileID: 0}
+  healthBarPrefab: {fileID: 0}
   projectilePrefab: {fileID: 1758729050994125285, guid: 4c578b7c871cabd45922cb8d2fe43a1d, type: 3}
   firePoint: {fileID: 1174263270}
   projectileSpeed: 8
@@ -8505,6 +8574,8 @@ MonoBehaviour:
   attackInterval: 0.12
   damagePerHitNormal: 5
   damagePerHitHeavy: 20
+  fireattack1: {fileID: 0}
+  fireattack2: {fileID: 0}
   heavyAttackGameobject: {fileID: 1885086873}
   delayBeforeHeavyAttackDamage: 0.1
   minTimeHeavyAttackCharge: 0
@@ -8514,6 +8585,7 @@ MonoBehaviour:
   playerBodyRB: {fileID: 0}
   heavyAttackSprite: {fileID: 0}
   heavySpriteFlickerDuration: 0.2
+  heavyRockAttackInitiated: 0
   heavyAttackKnockbackForce: 4
 --- !u!1 &1542552783
 GameObject:
@@ -9073,8 +9145,16 @@ MonoBehaviour:
   fireRate: 2
   hurtSound: {fileID: 0}
   deathSound: {fileID: 0}
+  enemyHealthBar: {fileID: 0}
+  healthBarPrefab: {fileID: 0}
   meleeRange: 1
   meleeDamage: 1
+  fartPrefab: {fileID: 0}
+  fartSound: {fileID: 0}
+  fireFartSprite: {fileID: 0}
+  rockFartSprite: {fileID: 0}
+  fireFart: 0
+  rockFart: 0
 --- !u!114 &1675880374
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10825,3 +10905,4 @@ SceneRoots:
   - {fileID: 1990093368}
   - {fileID: 1552109220}
   - {fileID: 1460928564}
+  - {fileID: 21763759}

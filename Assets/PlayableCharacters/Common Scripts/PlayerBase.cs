@@ -32,7 +32,7 @@ public abstract class PlayerBase : MonoBehaviour
 
     // CONTROL FLAGS
     public bool isActive = true;
-    public bool canMove = true;
+
     public bool slowed = false;
     [SerializeField] private float activeSlowMultiplier = 1f;
     public bool isBound = false;
@@ -247,11 +247,9 @@ public abstract class PlayerBase : MonoBehaviour
 
         Vector2 finalVelocity = Vector2.zero;
 
-        if (canMove)
-        {
-            float speed = moveSpeed * currentSpeedMultiplier;
-            finalVelocity = direction * speed;
-        }
+
+        float speed = moveSpeed * currentSpeedMultiplier;
+        finalVelocity = direction * speed;
 
         Vector2 velocity = finalVelocity + externalVelocity;
         rb.linearVelocity = velocity;
@@ -400,7 +398,7 @@ public abstract class PlayerBase : MonoBehaviour
 
     public void SetMovementEnabled(bool enabled)
     {
-        canMove = enabled;
+
     }
 
     public void OverrideFacing(Vector2 worldPoint)

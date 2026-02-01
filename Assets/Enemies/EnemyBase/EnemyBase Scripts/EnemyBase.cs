@@ -20,20 +20,30 @@ public class EnemyBase : MonoBehaviour, IDamageable
 
     protected float fireTimer;
 
+    public EnemyHealthBar enemyHealthBar;
 
+    public GameObject healthBarPrefab;
 
     protected virtual void Awake()
     {
         currentHealth = maxHealth;
         anim = GetComponent<Animator>();
+        if (enemyHealthBar == null)
+        {
+            enemyHealthBar = Instantiate(
+                healthBarPrefab,
+                new Vector3(-0.6f, 0.5f, 0),
+                Quaternion.identity,
+                transform
+            ).GetComponent<EnemyHealthBar>();            
+        }
+        enemyHealthBar.transform.localPosition = new Vector3(-0.6f, 0.5f, 0f);
     }
 
     protected virtual void Start()
     {
         targetPlayer = FindAnyObjectByType<PlayerCharacter>().GetActivePosition();
     }
-
-
 
     protected virtual Vector3 GetCurrentTargetPosition()
     {
@@ -46,9 +56,9 @@ public class EnemyBase : MonoBehaviour, IDamageable
 
         currentHealth -= damage;
         Debug.Log($"{gameObject.name} took {damage} damage. Remaining HP: {currentHealth}");
-
         //hurtSound?.Play();
         OnDamaged(damage);
+        enemyHealthBar.UpdateHealthBar((float) currentHealth/maxHealth);
 
         if (currentHealth <= 0)
         {
@@ -81,4 +91,6 @@ public class EnemyBase : MonoBehaviour, IDamageable
         yield return new WaitForSeconds(deathDelay);
         Destroy(gameObject);
     }
+    
+    
 }

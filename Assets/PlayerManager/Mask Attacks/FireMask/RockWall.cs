@@ -15,9 +15,5 @@ public class RockWall : MonoBehaviour
         {
             Destroy(collision.gameObject);
         }
-        else
-        {
-            print("Nah u dont have da balls");
-        }
     }
 }

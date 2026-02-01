@@ -102,6 +102,6 @@ public class RockMask : MaskAttackTemplate
 
         Vector2 direction = GetRockDirection();
         GameObject rock = Instantiate(normalAttackRock, transform.position, Quaternion.identity);
-        rock.GetComponent<RockProjectile>().Initialize(direction, damagePerHitNormal, inputCharge);
+        rock.GetComponent<RockProjectile>().Initialize(direction, damagePerHitHeavy, inputCharge);
     }
 }

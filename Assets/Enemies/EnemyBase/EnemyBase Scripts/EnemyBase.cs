@@ -1,5 +1,6 @@
 using UnityEngine;
 using System;
+using Unity.VisualScripting;
 
 [RequireComponent(typeof(Collider2D))]
 public class EnemyBase : MonoBehaviour, IDamageable
@@ -21,6 +22,8 @@ public class EnemyBase : MonoBehaviour, IDamageable
     protected float fireTimer;
 
     public EnemyHealthBar enemyHealthBar;
+    private EnemyManager enemyManager;
+
 
     public GameObject healthBarPrefab;
 
@@ -79,18 +82,33 @@ public class EnemyBase : MonoBehaviour, IDamageable
         isDead = true;
         Debug.Log($"{gameObject.name} has died.");
 
-        deathSound?.Play();
+        if (deathSound != null)
+        {
+            deathSound.Play();
+        }
+        
         if (anim)
             anim.SetTrigger("Die");
 
-        StartCoroutine(DestroyAfterDelay());
+        if (enemyManager != null)
+        {
+            enemyManager.OnEnemyKilled();
+        }
+        // print("Starting destroy coroutine");
+        // StartCoroutine(DestroyAfterDelay());
+        Destroy(gameObject);
     }
 
     private System.Collections.IEnumerator DestroyAfterDelay()
-    {
+    {   
+
         yield return new WaitForSeconds(deathDelay);
+        print("Destroying object");
         Destroy(gameObject);
     }
-    
-    
+
+    public void AttachEnemyManager(EnemyManager em)
+    {
+        enemyManager = em;
+    }
 }

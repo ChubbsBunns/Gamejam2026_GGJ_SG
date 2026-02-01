@@ -282,5 +282,7 @@ MonoBehaviour:
   fireRate: 2
   hurtSound: {fileID: 0}
   deathSound: {fileID: 0}
+  enemyHealthBar: {fileID: 0}
+  healthBarPrefab: {fileID: 325350733798571627, guid: a14ca58032927b34da4026e9b20736fa, type: 3}
   meleeRange: 1
   meleeDamage: 1

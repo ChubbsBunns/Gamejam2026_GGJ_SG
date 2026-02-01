@@ -96,6 +96,7 @@ public class EnemyBase : MonoBehaviour, IDamageable
         }
         // print("Starting destroy coroutine");
         // StartCoroutine(DestroyAfterDelay());
+        print("Enemy die");
         Destroy(gameObject);
     }
 

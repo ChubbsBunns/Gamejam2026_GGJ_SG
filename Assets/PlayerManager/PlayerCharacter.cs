@@ -417,7 +417,19 @@ public class PlayerCharacter : PlayerBase
 
     else
         {
-            base.animator.Play("idle_down");
+            if (currentMaskID == MaskID.Rock)
+            {
+                base.animator.Play("idle_rock");
+            }
+            else if ( currentMaskID == MaskID.Fire)
+            {
+                base.animator.Play("idle_fire");                
+            }
+            else
+            {
+                base.animator.Play("idle_down");                
+            }
+
 
         }
     }

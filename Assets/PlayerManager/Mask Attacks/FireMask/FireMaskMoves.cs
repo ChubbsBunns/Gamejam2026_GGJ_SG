@@ -90,7 +90,7 @@ public class FireMask : MaskAttackTemplate
         {
             StopCoroutine(attackRoutine);
             attackRoutine = null;
-        }        
+        }
     }
 
     public override void OnAttackHeavyStarted()

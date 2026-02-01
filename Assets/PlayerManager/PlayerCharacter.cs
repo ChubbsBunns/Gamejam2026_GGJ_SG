@@ -81,7 +81,7 @@ public class PlayerCharacter : PlayerBase
     {
         if (currentMaskID == MaskID.Fire)
         {
-            if (isDashing || !cooldowns.IsReady(DASH_ID) || !canMove)
+            if (isDashing || !cooldowns.IsReady(DASH_ID))
                 return;
 
             StartCoroutine(StartDash());            
@@ -102,7 +102,7 @@ public class PlayerCharacter : PlayerBase
     {
         base.Update();
         
-        if (!isActive || !canMove) return;
+        if (!isActive) return;
         //HandleWalkingAudio();
         UpdateAnimation();
         UpdateAttackAim();
@@ -452,13 +452,13 @@ public class PlayerCharacter : PlayerBase
     public void DialogueStartSettings()
     {
         print("Dialogue started");
-        canMove = false;
+        
     }
 
     public void DialogueEndSettings()
     {
         print("Dialogue ended");
-        canMove = true;
+        
     }
 
     // =========================

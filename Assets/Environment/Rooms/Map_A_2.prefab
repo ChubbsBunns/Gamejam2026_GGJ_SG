@@ -3875,6 +3875,7 @@ MonoBehaviour:
   entrance: {fileID: 6243300872297240242}
   exit: {fileID: 3118116489991297746}
   startBattleOnLoad: 0
+  finalRoom: 1
 --- !u!61 &4994382687717850381
 BoxCollider2D:
   m_ObjectHideFlags: 0

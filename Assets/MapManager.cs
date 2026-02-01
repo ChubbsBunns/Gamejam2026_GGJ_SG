@@ -6,6 +6,8 @@ public class MapManager : MonoBehaviour
 {
     public static MapManager instance;
 
+    public GameObject endCreditsPanel;
+
     [SerializeField]
     public enum RoomGroup
     {
@@ -130,6 +132,9 @@ public class MapManager : MonoBehaviour
 
     public void EndGame()
     {
-        
+        if (endCreditsPanel != null)
+        {
+            endCreditsPanel.SetActive(true);
+        }
     }
 }

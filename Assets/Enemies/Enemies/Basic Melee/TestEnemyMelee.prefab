@@ -231,6 +231,7 @@ MonoBehaviour:
   meleeRange: 1
   meleeDamage: 1
   fartPrefab: {fileID: 4767398729212869257, guid: 1d94e698ee2fefb48a19efbf3a0329ce, type: 3}
+  fartCooldown: 2
   fartSound: {fileID: 8300000, guid: 603c8974bb837ce4dafeb5705888e447, type: 3}
   fireFartSprite: {fileID: 21300000, guid: ff8595e90e901ad4ba654de20befe182, type: 3}
   rockFartSprite: {fileID: 21300000, guid: aa1a3ebd3294dac40846f771d2a0c2bf, type: 3}

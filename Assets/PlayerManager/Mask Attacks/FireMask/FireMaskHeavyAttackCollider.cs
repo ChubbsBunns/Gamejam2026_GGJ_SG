@@ -4,8 +4,7 @@ public class FireMaskHeavyAttackCollider : MonoBehaviour
 {
     [SerializeField] FireMask fireMask;
     [SerializeField] Collider2D fireMaskHeavyAttack;
-    [SerializeField] float minColliderSize = 1;
-    [SerializeField] float maxColliderSize = 2;
+
 
     void Start()
     {

@@ -2,6 +2,7 @@ using UnityEngine;
 using UnityEngine.UI;
 using System.Collections.Generic;
 using UnityEngine.UIElements;
+using System.Numerics;
 
 public class PlayerHealthUI : MonoBehaviour
 {
@@ -11,34 +12,14 @@ public class PlayerHealthUI : MonoBehaviour
 
     [Header("Heart Sprites")]
     [SerializeField] private List<UnityEngine.UI.Image> presetHearts = new List<UnityEngine.UI.Image>();
-    private PlayerBase currentPlayer;
 
-    public Sprite fullHeartSprite;
-    public Sprite emptyHeartSprite;
+    public GameObject healthBar;
 
     public void UpdateHearts(int currHealth, int maxHealth)
     {
-        // Build new hearts
-        for (int i = 0; i < presetHearts.Count; i++)
-        {
-            if (i < maxHealth)
-            {
-                UnityEngine.UI.Image img = presetHearts[i];
-                presetHearts[i].enabled = true;
-                if (i < currHealth)
-                {
-                    img.sprite = fullHeartSprite;
-                } else
-                {
-                    img.sprite = emptyHeartSprite;
-                }
-            }
-            else
-            {
-                presetHearts[i].enabled = false;
-            }
+        float t = (float)currHealth/(float)maxHealth;
+        healthBar.transform.localScale = new UnityEngine.Vector3(t, 1, 1);
 
-        }
         
     }
 }

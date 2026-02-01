@@ -8,7 +8,7 @@ public class EnemyMelee : EnemyBase
 
     public GameObject fartPrefab;
     private float fartTimer = 0f;
-    private const float fartCooldown = 3f;
+    public float fartCooldown = 3f;
 
     public AudioClip fartSound;
     private AudioSource audioSource;

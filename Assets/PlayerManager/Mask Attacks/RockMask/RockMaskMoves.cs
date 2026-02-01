@@ -21,9 +21,27 @@ public class RockMask : MaskAttackTemplate
     [SerializeField] private float minTimeHeavyAttackCharge = 0;
     [SerializeField] private float maxTimeHeavyAttackCharge = 0;
 
+    public bool charging;
+
+    public GameObject chargebar;
+
     void Awake()
     {
         mainCamera = Camera.main;
+    }
+
+    void Update()
+    {
+        if (charging)
+        {
+            float chargeVal = Mathf.Clamp((Time.time - heavyAttackStartTime)/maxTimeHeavyAttackCharge, 0, 1);
+            chargebar.transform.localScale = new Vector3(chargeVal, 1, 1);
+        }
+        else
+        {
+            chargebar.transform.localScale = new Vector3(0, 1, 1);            
+        }
+
     }
 
     public override void OnAttackStarted()
@@ -51,12 +69,13 @@ public class RockMask : MaskAttackTemplate
     public override void OnAttackHeavyStarted()
     {
         OnAttackCanceled();
+        charging = true;
         heavyAttackStartTime = Time.time;
     }
 
     public override void OnAttackHeavyCanceled()
     {
-        
+        charging = false;
         float chargeTime = Time.time - heavyAttackStartTime;
         DamageEnemiesHeavyAttack(chargeTime);
         HeavyAttackCoroutine(chargeTime);

@@ -34,6 +34,8 @@ public class FireMask : MaskAttackTemplate
     private Camera mainCamera;
 
     [SerializeField] private float heavyAttackKnockbackForce = 8f;
+    public GameObject chargebar;
+    public bool charging;
 
     void Awake()
     {
@@ -51,6 +53,19 @@ public class FireMask : MaskAttackTemplate
     {
         enemiesToHitNormalAttack.Clear();
         enemiesToHitHeavyAttack.Clear();
+    }
+
+    void Update()
+    {
+        if (charging)
+        {
+            float chargeVal = Mathf.Clamp((Time.time - heavyAttackStartTime)/maxTimeHeavyAttackCharge, 0, 1);
+            chargebar.transform.localScale = new Vector3(chargeVal, 1, 1);
+        }
+        else
+        {
+            chargebar.transform.localScale = new Vector3(0, 1, 1);            
+        }
     }
 
 
@@ -81,11 +96,13 @@ public class FireMask : MaskAttackTemplate
     public override void OnAttackHeavyStarted()
     {
         OnAttackCanceled();
+        charging = true;
         heavyAttackStartTime = Time.time;        
     }
 
     public override void OnAttackHeavyCanceled()
     {
+        charging = false;
         float chargeTime = Time.time - heavyAttackStartTime;
         StartCoroutine(HeavyAttackCoroutine(chargeTime));
 

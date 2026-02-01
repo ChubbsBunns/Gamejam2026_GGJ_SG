@@ -72,7 +72,6 @@ public class FireMask : MaskAttackTemplate
     public override void OnAttackStarted()
     {
         
-        Debug.Log("Fire Attack started");
         if (isAttacking) return;
         if (attackRoutine != null) return;
 
@@ -82,7 +81,7 @@ public class FireMask : MaskAttackTemplate
 
     public override void OnAttackCanceled()
     {
-        Debug.Log("Fire Attack canceled");
+
         isAttacking = false;
         fireattack1.SetActive(false);
         fireattack2.SetActive(false);

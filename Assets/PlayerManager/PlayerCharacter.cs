@@ -76,6 +76,7 @@ public class PlayerCharacter : PlayerBase
         }
         base.rb = GetComponent<Rigidbody2D>();
         attackComponent.activeAttack = null;
+        SetMaskID(attackComponent.maskAttacks[0].gameObject);
     }
     protected override void OnMovementAbilityStarted()
     {

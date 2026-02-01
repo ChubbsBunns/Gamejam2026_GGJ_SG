@@ -1,6 +1,7 @@
 using UnityEngine;
 using System;
 using Unity.VisualScripting;
+using System.Collections;
 
 [RequireComponent(typeof(Collider2D))]
 public class EnemyBase : MonoBehaviour, IDamageable
@@ -44,6 +45,7 @@ public class EnemyBase : MonoBehaviour, IDamageable
         enemyHealthBar.UpdateHealthBar((float) currentHealth/maxHealth);
     }
 
+
     protected virtual void Start()
     {
         targetPlayer = FindAnyObjectByType<PlayerCharacter>().GetActivePosition();
@@ -72,9 +74,9 @@ public class EnemyBase : MonoBehaviour, IDamageable
 
     protected virtual void OnDamaged(int damage, float hitStopDuration = 0.05f)
     {
-        HitStopManager.Instance.StartHitStopTime(hitStopDuration);
-        if (anim)
-            anim.SetTrigger("Hurt");
+        //HitStopManager.Instance.StartHitStopTime(hitStopDuration);
+        //if (anim)
+        //    anim.SetTrigger("Hurt");
     }
 
     protected virtual void Die()

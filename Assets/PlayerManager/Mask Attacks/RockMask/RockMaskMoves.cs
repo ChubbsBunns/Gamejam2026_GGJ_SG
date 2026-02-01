@@ -56,7 +56,6 @@ public class RockMask : MaskAttackTemplate
 
     public override void OnAttackCanceled()
     {
-        Debug.Log("Fire Attack canceled");
         isAttacking = false;
 
         if (attackRoutine != null)

@@ -3870,9 +3870,21 @@ MonoBehaviour:
   UpperLeftSpawnBound: {fileID: 5392556419063994294}
   LowerRightSpawnBound: {fileID: 7366188887259524309}
   enemies:
+  - enemyPrefab: {fileID: 8433859676777789979, guid: 0b97fa8533c4efd47b83164d5830d9c9, type: 3}
+    num: 1
+  - enemyPrefab: {fileID: 5114604327075852593, guid: 0939e4b457c1af440b20063da36946dc, type: 3}
+    num: 1
+  - enemyPrefab: {fileID: 8433859676777789979, guid: 0b97fa8533c4efd47b83164d5830d9c9, type: 3}
+    num: 1
   - enemyPrefab: {fileID: 636277909174875991, guid: 141b37d5045ce8b42abee691a54aba56, type: 3}
     num: 1
-  entrance: {fileID: 6243300872297240242}
+  - enemyPrefab: {fileID: 5114604327075852593, guid: 0939e4b457c1af440b20063da36946dc, type: 3}
+    num: 1
+  - enemyPrefab: {fileID: 8433859676777789979, guid: 0b97fa8533c4efd47b83164d5830d9c9, type: 3}
+    num: 1
+  - enemyPrefab: {fileID: 5114604327075852593, guid: 0939e4b457c1af440b20063da36946dc, type: 3}
+    num: 1
+  entrance: {fileID: 8433859676777789979, guid: 0b97fa8533c4efd47b83164d5830d9c9, type: 3}
   exit: {fileID: 3118116489991297746}
   startBattleOnLoad: 0
   finalRoom: 1

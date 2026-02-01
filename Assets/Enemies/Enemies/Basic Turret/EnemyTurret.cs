@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class EnemyTurret : EnemyBase
+public class EnemyTurret : EnemyBase, IDamageable
 {
     [Header("Turret Settings")]
     public GameObject projectilePrefab;
@@ -16,6 +16,14 @@ public class EnemyTurret : EnemyBase
         base.Awake();
         playerCharacter = FindAnyObjectByType<PlayerCharacter>();
     }
+
+    protected override void Start()
+    {
+        base.Start();
+        enemyHealthBar.transform.localPosition = new Vector3(-0.6f, 2f, 0f);
+    }
+
+    
 
     private void Update()
     {

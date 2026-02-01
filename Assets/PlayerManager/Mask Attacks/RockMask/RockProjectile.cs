@@ -46,17 +46,10 @@ public class RockProjectile : MonoBehaviour
 
     void OnTriggerEnter2D(Collider2D collision)
     {
-        if (collision.gameObject.CompareTag("Wall"))
-        {
-            if (explodiBoi)
-            {
-                //explode
-            }
-            Destroy(this.gameObject);
-        }
-
+        Debug.Log("I am " + gameObject.name + " Colliding with  " + collision.gameObject.name);
         if (collision.gameObject.GetComponent<EnemyBase>() != null)
         {
+            Debug.Log("this is an enemy base");
             collision.gameObject.GetComponent<EnemyBase>().ApplyDamage(damage);
             if (explodiBoi)
             {

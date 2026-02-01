@@ -2643,7 +2643,15 @@ MonoBehaviour:
   UpperLeftSpawnBound: {fileID: 8428200066522281483}
   LowerRightSpawnBound: {fileID: 1765760722572269744}
   enemies:
-  - enemyPrefab: {fileID: 636277909174875991, guid: 141b37d5045ce8b42abee691a54aba56, type: 3}
+  - enemyPrefab: {fileID: 8433859676777789979, guid: 0b97fa8533c4efd47b83164d5830d9c9, type: 3}
+    num: 1
+  - enemyPrefab: {fileID: 5845195014183866710, guid: de510d638ac46894587b66a91aae761f, type: 3}
+    num: 1
+  - enemyPrefab: {fileID: 5114604327075852593, guid: 0939e4b457c1af440b20063da36946dc, type: 3}
+    num: 1
+  - enemyPrefab: {fileID: 5845195014183866710, guid: de510d638ac46894587b66a91aae761f, type: 3}
+    num: 1
+  - enemyPrefab: {fileID: 8433859676777789979, guid: 0b97fa8533c4efd47b83164d5830d9c9, type: 3}
     num: 1
   entrance: {fileID: 7851812505687926187}
   exit: {fileID: 7826324359574650811}

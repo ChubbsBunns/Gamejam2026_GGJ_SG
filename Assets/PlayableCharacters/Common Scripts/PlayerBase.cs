@@ -23,6 +23,7 @@ public abstract class PlayerBase : MonoBehaviour
     public int currentHealth;
     public Vector2 direction = Vector2.zero;
     public Vector2 facing = Vector2.down;
+    public GameObject retryCanvas;
 
     // COLLIDERS
     public List<Collider2D> colliders = new List<Collider2D>();
@@ -287,7 +288,7 @@ public abstract class PlayerBase : MonoBehaviour
         if (currentHealth <= 0 || Time.time < invulnerableUntil)
             return;
         invulnerableUntil = Time.time + postHitInvulnerability;
-        HitStopManager.Instance.StartHitStopTime(histStopTime);
+        //HitStopManager.Instance.StartHitStopTime(histStopTime);
         currentHealth = Mathf.Max(0, currentHealth - amount);
         OnHealthChanged?.Invoke(currentHealth, maxHealth);
         TakeDamageAddOns();
@@ -314,6 +315,7 @@ public abstract class PlayerBase : MonoBehaviour
     {
         OnDied?.Invoke();
         Debug.Log($"{name} has died!");
+        retryCanvas.SetActive(true);
     }
 
     // =========================

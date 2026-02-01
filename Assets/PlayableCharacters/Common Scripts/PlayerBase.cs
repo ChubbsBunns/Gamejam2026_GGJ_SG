@@ -301,10 +301,7 @@ public abstract class PlayerBase : MonoBehaviour
             Die();
     }
 
-
-
     abstract protected void TakeDamageAddOns();
-
 
     public void Heal(int amount)
     {

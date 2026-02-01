@@ -318,13 +318,10 @@ public class PlayerCharacter : PlayerBase
     // =========================
     // ANIMATION
     // =========================
-
-
     private void UpdateAnimation()
     {
         bool isMoving = direction.sqrMagnitude > 0.01f;
         FacingDirection facingDir = GetFacingDir();
-        // print(facingDir);
         if (isMoving && attackComponent.activeAttack == null)
         {
             switch (facingDir)
@@ -409,7 +406,7 @@ public class PlayerCharacter : PlayerBase
                     base.animator.Play("rock_walk_down");
                     break;
                 case FacingDirection.DownLeft:
-                    base.animator.Play("rock_walk_down_left");
+                    base.animator.Play("rock_down_left");
                     break;                    
                 case FacingDirection.DownRight:
                     base.animator.Play("rock_walk_down_right");

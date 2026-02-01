@@ -38,9 +38,10 @@ public class EnemyBase : MonoBehaviour, IDamageable
                 new Vector3(-0.6f, 0.5f, 0),
                 Quaternion.identity,
                 transform
-            ).GetComponent<EnemyHealthBar>();            
+            ).GetComponent<EnemyHealthBar>();
         }
         enemyHealthBar.transform.localPosition = new Vector3(-0.6f, 0.5f, 0f);
+        enemyHealthBar.UpdateHealthBar((float) currentHealth/maxHealth);
     }
 
     protected virtual void Start()
@@ -96,6 +97,7 @@ public class EnemyBase : MonoBehaviour, IDamageable
         }
         // print("Starting destroy coroutine");
         // StartCoroutine(DestroyAfterDelay());
+        print("Enemy die");
         Destroy(gameObject);
     }
 

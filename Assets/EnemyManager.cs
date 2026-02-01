@@ -19,23 +19,35 @@ public class EnemyManager : MonoBehaviour
 
     private bool firstEntry = false;
 
+    public GameObject entrance;
+    public GameObject exit;
+
+    public bool startBattleOnLoad = false;
+
+    public bool finalRoom = false;
+
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
     {
-        Debug.Log("ENemyManager start");
-        Collider2D[] hits = Physics2D.OverlapBoxAll(
-            transform.position,
-            GetComponent<BoxCollider2D>().bounds.size,
-            0f
-        );
-        print(hits.Length);
-        foreach (Collider2D hit in hits)
+        // Debug.Log("ENemyManager start");
+        // Collider2D[] hits = Physics2D.OverlapBoxAll(
+        //     transform.position,
+        //     GetComponent<BoxCollider2D>().bounds.size,
+        //     0f
+        // );
+        // print(hits.Length);
+        // foreach (Collider2D hit in hits)
+        // {
+        //     if (hit.CompareTag("PlayerBody") && !firstEntry)
+        //     {
+        //         StartRoomBattle();
+        //         firstEntry = true;
+        //     }
+        // }
+        if (startBattleOnLoad)
         {
-            if (hit.CompareTag("PlayerBody") && !firstEntry)
-            {
-                StartRoomBattle();
-                firstEntry = true;
-            }
+            StartRoomBattle();
+            firstEntry = true;
         }
     }
 
@@ -45,7 +57,16 @@ public class EnemyManager : MonoBehaviour
         if (numSpawned <= 0)
         {
             // Map completed
-            MapManager.instance.OnRoomCleared();
+            if (finalRoom)
+            {
+                MapManager.instance.EndGame();
+            }
+            else
+            {
+                MapManager.instance.OnRoomCleared();
+                exit.SetActive(false);
+            }
+            
         }
     }
 
@@ -55,12 +76,22 @@ public class EnemyManager : MonoBehaviour
         if (!firstEntry)
         {
             firstEntry = true;
+
             StartRoomBattle();
         }
     }
 
     private void StartRoomBattle()
     {
+        if (entrance != null)
+        {
+            entrance.SetActive(true);
+        }
+        if (exit != null)
+        {
+            exit.SetActive(true);
+        }
+        
         MapManager.instance.OnRoomEntered();
         Debug.Log("Spawning enemies");
         foreach (EnemyInfo ei in enemies)

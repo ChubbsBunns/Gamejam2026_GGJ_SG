@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -18,7 +19,9 @@ public class MapManager : MonoBehaviour
      public class RoomPrefabs
     {
         public RoomGroup roomGroup;
-        public GameObject roomPrefab;
+        public List<GameObject> roomPrefab;
+
+        public int prefabIndex = 0;
     }
 
     [System.Serializable]
@@ -61,12 +64,14 @@ public class MapManager : MonoBehaviour
         {
             if (rg.roomGroup == currentRoomGroup)
             {
-                roomToSpawn = rg.roomPrefab;
+                roomToSpawn = rg.roomPrefab[rg.prefabIndex];
+                rg.prefabIndex = Math.Min(rg.prefabIndex + 1, rg.roomPrefab.Count - 1);
             }
         }
         if (roomToSpawn == null)
         {
-            roomToSpawn = roomPrefabs[0].roomPrefab;
+            roomToSpawn = roomPrefabs[0].roomPrefab[roomPrefabs[0].prefabIndex];
+            roomPrefabs[0].prefabIndex = Math.Min(roomPrefabs[0].prefabIndex + 1, roomPrefabs[0].roomPrefab.Count - 1);
         }
         Vector3 roomSpawnPoint;
         roomSpawnPoint = roomSpawnPoints[0].spawnPoint;
@@ -120,6 +125,11 @@ public class MapManager : MonoBehaviour
         {
             Destroy(previousRoomInstance);
         }
+        
+    }
+
+    public void EndGame()
+    {
         
     }
 }
